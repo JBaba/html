@@ -599,7 +599,14 @@ class Element extends Node with _ParentNode, _ElementAndDocument {
       });
     }
 
-    str.write('>');
+    // if void element then close the tag
+    if (isVoidElement(localName) && attributes.isEmpty) {
+      str.write('/>');
+    } else if (isVoidElement(localName) && attributes.isNotEmpty) {
+      str.write(' />');
+    } else {
+      str.write('>');
+    }
 
     if (nodes.isNotEmpty) {
       if (localName == 'pre' ||
